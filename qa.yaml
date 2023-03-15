@@ -1,0 +1,48 @@
+---
+# Source: ui-deploy/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-service
+  labels:
+    app: react-ui
+    env: qa
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: react-ui
+  type: NodePort
+---
+# Source: ui-deploy/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-ui-dep
+  labels:
+    app: react-ui
+    env: qa
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-ui
+  template:
+    metadata:
+      labels:
+        app: react-ui
+        env: qa
+    spec:
+      containers:
+        - name: react-ui
+          image: vikashashoke/ui
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 0.5
+              memory: 1Gi
+            requests:
+              cpu: 0.5
+              memory: 1Gi

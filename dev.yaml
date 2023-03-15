@@ -1,5 +1,22 @@
-
 ---
+# Source: ui-deploy/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-service
+  labels:
+    app: react-ui
+    env: dev
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: react-ui
+  type: NodePort
+---
+# Source: ui-deploy/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
